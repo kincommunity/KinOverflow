@@ -7,7 +7,7 @@ UI & functionality we could provide within this timeline and made a lot of allow
 functionality/ui presentation and code quality.
 
 
-##About
+## About
 <ul>
 <li>KinOverflow aims to demonstrate how real monetary value can be given to users contributing in stackoverflow using
  KIN. We thought of many ways we could do this, including setting monetary bounties to questions but decided to demonstrate 
