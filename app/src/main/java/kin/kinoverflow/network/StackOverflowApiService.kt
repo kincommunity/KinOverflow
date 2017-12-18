@@ -24,5 +24,5 @@ internal interface StackOverflowApiService {
                    @Query("filter") filter: String = "withbody"): Single<StackOverflowQuery<Answer>>
 
     @GET("users/{id}")
-    fun getUser(@Path("id") id: Int, @Query("site") site: String = "stackoverflow"): Single<StackOverflowQuery<User>>
+    fun getUser(@Path("id") id: Int, @Query("site") site: String = "stackoverflow", @Query("filter") filter: String = "unsafe"): Single<StackOverflowQuery<User>>
 }

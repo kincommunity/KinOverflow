@@ -58,12 +58,19 @@ class ProfileScreen @JvmOverloads constructor(
         bronzeBadgeCount.text = user.badgeCounts.bronze.toString()
         silverBadgeCount.text = user.badgeCounts.silver.toString()
         goldBadgeCount.text = user.badgeCounts.gold.toString()
-      //  aboutUser.text = user.aboutMe
+        aboutUser.text = removeXmlFormatting(user.aboutMe)
         Picasso.with(userProfileImage.context)
                 .load(user.profileImage)
                 .into(userProfileImage)
         userId.text = user.displayName
         reputation.text = user.reputation.toString()
+    }
+
+    private fun removeXmlFormatting(originalString: String) : String {
+        var splitStringList = originalString.split(Regex("<.*?>"), 1000)
+
+       return splitStringList.reduce(operation = { tags, tag ->
+            return@reduce "$tags$tag"})
     }
 
     override fun onDetachedFromWindow() {
