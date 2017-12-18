@@ -6,7 +6,7 @@ import kin.kinoverflow.model.User
 import kin.kinoverflow.network.StackOverflowApi
 
 
-class UserManager(context: Context) {
+class UserManager(private val context: Context) {
 
     private var userId: Int
     private val api: StackOverflowApi = StackOverflowApi()
@@ -15,10 +15,11 @@ class UserManager(context: Context) {
 
     init {
         val sharedPref = context.getSharedPreferences("settings", Context.MODE_PRIVATE)
-        userId = sharedPref.getInt("user_id", 115145) //default is commonsware profile
-        val fakedUserId = sharedPref.getInt("faked_user_id", 22656) //default is JonSkeet profile
+        userId = sharedPref.getInt("user_id", 3903847) //default is yosriz profile
+        val fakedUserId = sharedPref.getInt("faked_user_id", 9113876) //default is berryve profile
         cachedUser = api.getUserDetails(userId)
                 .cache()
+
         cachedUser
                 .subscribe()
 
