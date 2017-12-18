@@ -96,9 +96,9 @@ class PostScreen @JvmOverloads constructor(
                         kinIcon.visibility = View.VISIBLE
                         kinRect.visibility = View.VISIBLE
                     } else {
-                        questionKin.visibility = View.INVISIBLE
-                        kinIcon.visibility = View.INVISIBLE
-                        kinRect.visibility = View.INVISIBLE
+                        questionKin.visibility = View.GONE
+                        kinIcon.visibility = View.GONE
+                        kinRect.visibility = View.GONE
                     }
                 }
 

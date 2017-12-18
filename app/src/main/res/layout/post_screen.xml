@@ -21,7 +21,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/up_vote"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="RxJava2 Flowable.combineLatest behavior if all Flowables don't emit" />
+            tools:text="RxJava2 Flowable.combineLatest behavior if all Flowables don't emit, lets add some words to make it 3 lines" />
 
         <TextView
             android:id="@+id/tv_votes"
@@ -37,36 +37,33 @@
 
         <ImageView
             android:id="@+id/up_vote"
-            android:layout_width="20dp"
+            android:layout_width="28dp"
             android:layout_height="20dp"
-            android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:src="@drawable/ic_triangle_up"
+            android:src="@drawable/ic_up_vote"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/down_vote"
-            android:layout_width="20dp"
+            android:layout_width="28dp"
             android:layout_height="20dp"
-            android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="4dp"
-            android:src="@drawable/ic_triangle_down"
+            android:src="@drawable/ic_down_vote"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_votes" />
 
         <View
-            android:id="@+id/view"
+            android:id="@+id/give_kin_rectangle"
             android:layout_width="105dp"
             android:layout_height="22dp"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="8dp"
             android:background="@drawable/rectangle_give_kin"
-            app:layout_constraintBottom_toBottomOf="@+id/rectangle_kin"
             app:layout_constraintStart_toEndOf="@id/rectangle_kin"
-            app:layout_constraintTop_toBottomOf="@id/down_vote" />
+            app:layout_constraintTop_toBottomOf="@id/tv_tags" />
 
         <TextView
             android:id="@+id/sponsor"
@@ -75,10 +72,10 @@
             android:text="Give Kin"
             android:textColor="#ffffff"
             android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="@+id/view"
-            app:layout_constraintEnd_toEndOf="@+id/view"
-            app:layout_constraintStart_toStartOf="@+id/view"
-            app:layout_constraintTop_toTopOf="@+id/view" />
+            app:layout_constraintBottom_toBottomOf="@+id/give_kin_rectangle"
+            app:layout_constraintEnd_toEndOf="@+id/give_kin_rectangle"
+            app:layout_constraintStart_toStartOf="@+id/give_kin_rectangle"
+            app:layout_constraintTop_toTopOf="@+id/give_kin_rectangle" />
 
 
         <TextView
@@ -88,9 +85,10 @@
             android:layout_marginEnd="1dp"
             android:layout_marginStart="3dp"
             android:textColor="@color/colorPrimary"
-            android:visibility="invisible"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@+id/rectangle_kin"
             app:layout_constraintEnd_toStartOf="@id/kin_icon"
+            app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="@+id/rectangle_kin"
             app:layout_constraintTop_toTopOf="@id/rectangle_kin"
             tools:text="50"
@@ -102,12 +100,13 @@
             android:layout_height="22dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="8dp"
             android:background="@drawable/rectangle_kin"
-            android:visibility="invisible"
+            android:visibility="gone"
+            app:layout_constraintVertical_chainStyle="spread"
             app:layout_constraintEnd_toStartOf="@id/tv_tags"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/down_vote"
+            app:layout_constraintTop_toBottomOf="@id/tv_tags"
             tools:visibility="visible" />
 
         <ImageView
@@ -116,9 +115,10 @@
             android:layout_height="9dp"
             android:layout_marginEnd="2dp"
             android:src="@drawable/ic_kin_icon"
-            android:visibility="invisible"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@id/rectangle_kin"
             app:layout_constraintEnd_toEndOf="@id/rectangle_kin"
+            app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toEndOf="@id/tv_kin"
             app:layout_constraintTop_toTopOf="@id/rectangle_kin"
             tools:visibility="visible" />
@@ -128,12 +128,11 @@
             android:id="@+id/tv_tags"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
             android:textColor="#a6b9d4"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="@id/down_vote"
-            app:layout_constraintStart_toEndOf="@+id/down_vote"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="@+id/tv_title"
+            app:layout_constraintTop_toBottomOf="@id/tv_title"
             tools:text="rx-java, rx-android, rx-java2" />
 
         <View
@@ -145,7 +144,7 @@
             android:background="#abcdef"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view" />
+            app:layout_constraintTop_toBottomOf="@+id/give_kin_rectangle" />
 
         <TextView
             android:id="@+id/tv_question_body"
@@ -176,7 +175,7 @@
             android:layout_height="55dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:background="#70005fff"
+            android:background="#ced8e1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_asked_date" />
 

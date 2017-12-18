@@ -80,6 +80,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/rectangle_kin"
         app:layout_constraintEnd_toStartOf="@id/kin_icon"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintVertical_chainStyle="packed"
         app:layout_constraintStart_toStartOf="@+id/rectangle_kin"
         app:layout_constraintTop_toTopOf="@id/rectangle_kin"
         tools:text="50" />
@@ -105,6 +106,7 @@
         app:layout_constraintBottom_toBottomOf="@id/rectangle_kin"
         app:layout_constraintEnd_toEndOf="@id/rectangle_kin"
         app:layout_constraintStart_toEndOf="@id/tv_kin"
+        app:layout_constraintVertical_chainStyle="packed"
         app:layout_constraintTop_toTopOf="@id/rectangle_kin" />
 
     <View

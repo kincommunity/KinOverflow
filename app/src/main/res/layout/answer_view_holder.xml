@@ -10,10 +10,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="6dp"
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/up_vote"
+        app:layout_constraintStart_toEndOf="@+id/give_kin_rectangle"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="@string/question_body" />
 
@@ -21,6 +21,7 @@
         android:id="@+id/tv_votes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
         app:layout_constraintEnd_toEndOf="@id/up_vote"
         app:layout_constraintStart_toStartOf="@+id/up_vote"
         app:layout_constraintTop_toBottomOf="@+id/up_vote"
@@ -29,22 +30,25 @@
     <ImageView
         android:id="@+id/up_vote"
         android:layout_width="28dp"
-        android:layout_height="28dp"
+        android:layout_height="20dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:src="@android:drawable/arrow_up_float"
+        android:src="@drawable/ic_up_vote"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/tv_answer"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/down_vote"
+        android:layout_marginTop="4dp"
         android:layout_width="28dp"
-        android:layout_height="28dp"
+        android:layout_height="20dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:src="@android:drawable/arrow_down_float"
+        android:src="@drawable/ic_down_vote"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/tv_answer"
         app:layout_constraintTop_toBottomOf="@+id/tv_votes" />
 
     <ImageView
@@ -54,26 +58,75 @@
         app:layout_constraintEnd_toEndOf="@+id/down_vote"
         app:layout_constraintStart_toStartOf="@+id/down_vote"
         app:layout_constraintTop_toBottomOf="@+id/down_vote"
-        tools:src="@android:drawable/sym_action_call" />
+        android:visibility="gone"
+        tools:visibility="visible"
+        tools:src="@drawable/ic_v_green" />
 
-    <TextView
-        android:id="@+id/tv_kin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        app:layout_constraintEnd_toEndOf="@+id/accepted_answer"
-        app:layout_constraintStart_toStartOf="@+id/accepted_answer"
-        app:layout_constraintTop_toBottomOf="@id/sponsor"
-        tools:text="13" />
+    <View
+        android:id="@+id/give_kin_rectangle"
+        android:layout_width="60dp"
+        android:layout_height="19dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/rectangle_give_kin"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/tv_answer"
+        app:layout_constraintTop_toBottomOf="@id/accepted_answer" />
+
 
     <TextView
         android:id="@+id/sponsor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sponsor"
-        app:layout_constraintEnd_toEndOf="@+id/accepted_answer"
-        app:layout_constraintStart_toStartOf="@+id/accepted_answer"
-        app:layout_constraintTop_toBottomOf="@id/accepted_answer" />
+        android:text="Give Kin"
+        android:textColor="#ffffff"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/give_kin_rectangle"
+        app:layout_constraintEnd_toEndOf="@+id/give_kin_rectangle"
+        app:layout_constraintStart_toStartOf="@+id/give_kin_rectangle"
+        app:layout_constraintTop_toTopOf="@+id/give_kin_rectangle" />
+
+    <TextView
+        android:id="@+id/tv_kin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="1dp"
+        android:layout_marginStart="3dp"
+        android:textColor="@color/colorPrimary"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/rectangle_kin"
+        app:layout_constraintEnd_toStartOf="@id/kin_icon"
+        app:layout_constraintStart_toStartOf="@+id/rectangle_kin"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintTop_toTopOf="@id/rectangle_kin"
+        tools:text="50"
+        tools:visibility="visible" />
+
+    <View
+        android:id="@+id/rectangle_kin"
+        android:layout_width="32dp"
+        android:layout_height="22dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/rectangle_kin"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toStartOf="@id/tv_answer"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/give_kin_rectangle"
+        tools:visibility="visible" />
+
+    <ImageView
+        android:id="@+id/kin_icon"
+        android:layout_width="9dp"
+        android:layout_height="9dp"
+        android:layout_marginEnd="2dp"
+        android:src="@drawable/ic_kin_icon"
+        android:visibility="invisible"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintBottom_toBottomOf="@id/rectangle_kin"
+        app:layout_constraintEnd_toEndOf="@id/rectangle_kin"
+        app:layout_constraintStart_toEndOf="@id/tv_kin"
+        app:layout_constraintTop_toTopOf="@id/rectangle_kin"
+        tools:visibility="visible" />
 
     <com.github.curioustechizen.ago.RelativeTimeTextView
         android:id="@+id/tv_asked_date"
@@ -87,10 +140,10 @@
 
     <View
         android:id="@+id/profile_area"
-        android:layout_width="160dp"
+        android:layout_width="170dp"
         android:layout_height="55dp"
         android:layout_marginTop="6dp"
-        android:background="#7db2d1"
+        android:background="#ced8e1"
         app:layout_constraintStart_toStartOf="@id/tv_answer"
         app:layout_constraintTop_toBottomOf="@id/tv_asked_date" />
 
@@ -125,9 +178,9 @@
     <View
         android:id="@+id/separator"
         android:layout_width="match_parent"
-        android:layout_height="32dp"
+        android:layout_height="31dp"
         android:layout_marginTop="8dp"
-        android:background="#c7c7ca"
+        android:background="@color/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/profile_area" />
@@ -137,6 +190,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="3dp"
         android:layout_marginTop="3dp"
+        android:textColor="#ffffff"
         android:text="Add Comment"
         app:layout_constraintBottom_toBottomOf="@id/separator"
         app:layout_constraintEnd_toEndOf="parent"
