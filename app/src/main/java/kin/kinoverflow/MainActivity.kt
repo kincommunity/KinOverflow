@@ -28,7 +28,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var questionsScreen: QuestionsScreen
     private lateinit var profileScreen: ProfileScreen
     private lateinit var userManger: UserManager
-    private var initialBalance: String = "0"
 
     private var kinClient: KinClient? = null
 
@@ -57,7 +56,6 @@ class MainActivity : AppCompatActivity() {
         bottomNavigation.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.navigation_profile -> {
-                    profileScreen.initialBalance = initialBalance
                     screenHolder.removeAllViews()
                     screenHolder.addView(profileScreen)
                 }
@@ -101,19 +99,6 @@ class MainActivity : AppCompatActivity() {
             if (!kinClient.hasAccount()) {
                 var account = kinClient.createAccount(PASSPHRASE)
                 AwardServiceMock().awardKin(account.publicAddress)
-                initialBalance = "10000"
-            }
-            else {
-                var request = kinClient.account.pendingBalance
-                request?.run(object : ResultCallback<Balance> {
-                    override fun onResult(balance: Balance) {
-                        initialBalance = balance.value(0)
-                    }
-
-                    override fun onError(e: Exception) {
-                        e.printStackTrace()
-                    }
-                })
             }
 
             return kinClient

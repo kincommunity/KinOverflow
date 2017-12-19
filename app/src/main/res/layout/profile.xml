@@ -80,6 +80,9 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/prof_kin_area"
+        android:visibility="invisible"
+        tools:visibility="visible"
         android:layout_width="wrap_content"
         android:layout_height="24dp"
         android:layout_marginTop="5dp"
@@ -87,16 +90,19 @@
         <TextView
             android:id="@+id/prof_kin_balance"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:textColor="#005fff"
+            tools:text="8642"
+            android:gravity="center"
             android:layout_gravity="center"
             android:textSize="16sp"/>
 
         <ImageView
             android:layout_marginLeft="2dp"
-            android:src="@drawable/kin_icon"
+            android:src="@drawable/ic_kin_icon"
             android:layout_width="14dp"
             android:layout_height="14dp"
+            android:gravity="center"
             android:layout_gravity="center"
             />
     </LinearLayout>

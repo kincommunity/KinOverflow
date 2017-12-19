@@ -3,6 +3,7 @@ package kin.kinoverflow.profile
 import android.content.Context
 import android.support.constraint.ConstraintLayout
 import android.util.AttributeSet
+import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
@@ -31,8 +32,8 @@ class ProfileScreen @JvmOverloads constructor(
     @BindView(R.id.prof_user_image) lateinit var userProfileImage: ImageView
     @BindView(R.id.prof_user_id) lateinit var userId: TextView
     @BindView(R.id.prof_reputation) lateinit var reputation: TextView
+    @BindView(R.id.prof_kin_area) lateinit var kinArea: View
 
-    lateinit var initialBalance: String
     var kinClient: KinClient? = null
     private var request: Request<Balance>? = null
 
@@ -48,7 +49,6 @@ class ProfileScreen @JvmOverloads constructor(
                 .subscribe { user ->
                     updateUserDetails(user)
                 }
-        kinBalance.text = initialBalance
         refreshBalanceText()
         kinBalance.setOnClickListener {
             refreshBalanceText()
@@ -80,6 +80,7 @@ class ProfileScreen @JvmOverloads constructor(
             request = kinClient?.account?.pendingBalance
             request?.run(object : ResultCallback<Balance> {
                 override fun onResult(balance: Balance) {
+                    kinArea.visibility = View.VISIBLE
                     kinBalance.text = balance.value(0)
                 }
 
