@@ -10,7 +10,7 @@ import kin.kinoverflow.R
 import kin.kinoverflow.model.Question
 
 
-class QuestionsAdapter : RecyclerView.Adapter<QuestionViewHolder>() {
+class QuestionsAdapter : RecyclerView.Adapter<QuestionListItemViewHolder>() {
 
     private val questions: ArrayList<Question> = ArrayList()
     private val kinMap: HashMap<String, Long> = HashMap()
@@ -28,9 +28,9 @@ class QuestionsAdapter : RecyclerView.Adapter<QuestionViewHolder>() {
         return questions.size
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): QuestionViewHolder {
-        val view = QuestionViewHolder(LayoutInflater.from(parent.context)
-                .inflate(R.layout.question_view_holder, parent, false)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): QuestionListItemViewHolder {
+        val view = QuestionListItemViewHolder(LayoutInflater.from(parent.context)
+                .inflate(R.layout.question_list_item_view_holder, parent, false)
         )
         view.listener = object : ViewHolderClickListener {
             override fun onClick(adapterPosition: Int) {
@@ -40,7 +40,7 @@ class QuestionsAdapter : RecyclerView.Adapter<QuestionViewHolder>() {
         return view
     }
 
-    override fun onBindViewHolder(vh: QuestionViewHolder, position: Int) {
+    override fun onBindViewHolder(vh: QuestionListItemViewHolder, position: Int) {
         val question = questions[position]
         Log.d("yossi", "index = $position questionId = ${question.questionId}")
         val kin = kinMap[question.questionId.toString()]

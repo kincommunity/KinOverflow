@@ -12,7 +12,7 @@ import io.reactivex.subjects.PublishSubject
 import kin.kinoverflow.R
 import kin.kinoverflow.model.Question
 
-class QuestionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+class QuestionListItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     @BindView(R.id.tv_date) lateinit var date: RelativeTimeTextView
     @BindView(R.id.tv_tags) lateinit var tags: TextView

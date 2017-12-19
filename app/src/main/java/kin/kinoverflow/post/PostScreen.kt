@@ -7,13 +7,10 @@ import android.text.format.DateUtils
 import android.util.AttributeSet
 import android.view.View
 import android.widget.FrameLayout
-import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
 import butterknife.BindView
 import butterknife.ButterKnife
 import butterknife.OnClick
-import com.github.curioustechizen.ago.RelativeTimeTextView
 import com.squareup.picasso.Picasso
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -28,6 +25,7 @@ import kin.kinoverflow.network.KinOverflowDb
 import kin.kinoverflow.network.StackOverflowApi
 import kin.kinoverflow.transaction.TransactionDialog
 import kin.kinoverflow.user.UserManager
+import kin.kinoverflow.utils.plusAssign
 import kin.sdk.core.KinClient
 
 
@@ -39,21 +37,10 @@ class PostScreen @JvmOverloads constructor(
         private val userManager: UserManager
 ) : FrameLayout(context, attrs, defStyleAttr) {
 
-    @BindView(R.id.recycler_answers) lateinit var recycler: RecyclerView
-    @BindView(R.id.tv_question_body) lateinit var questionBody: TextView
-    @BindView(R.id.tv_title) lateinit var questiontitle: TextView
-    @BindView(R.id.tv_votes) lateinit var questionVotes: TextView
-    @BindView(R.id.tv_tags) lateinit var questionTags: TextView
-    @BindView(R.id.tv_asked_date) lateinit var questionDate: RelativeTimeTextView
-    @BindView(R.id.profile_image) lateinit var questionProfileImage: ImageView
-    @BindView(R.id.tv_user_name) lateinit var questionProfileName: TextView
-    @BindView(R.id.tv_badges_count) lateinit var questionProfileBadgesCount: TextView
-    @BindView(R.id.tv_kin) lateinit var questionKin: TextView
-    @BindView(R.id.kin_icon) lateinit var kinIcon: View
-    @BindView(R.id.rectangle_kin) lateinit var kinRect: View
+    @BindView(R.id.recycler_post) lateinit var recycler: RecyclerView
 
     private val stackOverflowApi: StackOverflowApi = StackOverflowApi()
-    private val answersAdapter: AnswersAdapter = AnswersAdapter()
+    private val postAdapter = PostAdapter()
     private var disposables: CompositeDisposable = CompositeDisposable()
     private val transactionDialog = TransactionDialog(context, kinClient)
     private lateinit var answers: List<Answer>
@@ -61,7 +48,7 @@ class PostScreen @JvmOverloads constructor(
     init {
         val view = inflate(context, R.layout.post_screen, this)
         view?.let { ButterKnife.bind(this, it) }
-        recycler.adapter = answersAdapter
+        recycler.adapter = postAdapter
         recycler.layoutManager = LinearLayoutManager(context)
     }
 
@@ -69,7 +56,7 @@ class PostScreen @JvmOverloads constructor(
         super.onAttachedToWindow()
 
         disposables = CompositeDisposable()
-        Single.zip(
+        disposables += Single.zip(
                 stackOverflowApi.getAnswers(question.questionId),
                 KinOverflowDb.getKinPerQuestionMap().first(HashMap()),
                 KinOverflowDb.getKinPerAnswerMap().first(HashMap()),
@@ -77,7 +64,7 @@ class PostScreen @JvmOverloads constructor(
                     Triple(answers, questionsMap, answersMap)
                 })
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe { populateQuestion() }
+                .doOnSubscribe { postAdapter.updateQuestion(question, null) }
                 .subscribe { triple ->
                     answers = triple.first
                     if (answerFakedUser != null && !answers.isEmpty()) {
@@ -87,22 +74,12 @@ class PostScreen @JvmOverloads constructor(
                                 link = user.link, profileImage = user.profileImage, userId = user.userId, userType = user.userType))
                         answers = list
                     }
-                    answersAdapter.updateAnswers(answers, triple.third)
                     val kin = triple.second[question.questionId.toString()]
-
-                    if (kin != null) {
-                        questionKin.text = kin.toString()
-                        questionKin.visibility = View.VISIBLE
-                        kinIcon.visibility = View.VISIBLE
-                        kinRect.visibility = View.VISIBLE
-                    } else {
-                        questionKin.visibility = View.GONE
-                        kinIcon.visibility = View.GONE
-                        kinRect.visibility = View.GONE
-                    }
+                    postAdapter.updateAnswers(answers, triple.third)
+                    postAdapter.updateQuestion(question, kin)
                 }
 
-        answersAdapter.answerClickEvents()
+        disposables += postAdapter.answerGiveKinClickEvents()
                 .flatMapSingle { answer ->
                     KinOverflowDb.getUsersAddressMap()
                             .first(HashMap())
@@ -130,38 +107,23 @@ class PostScreen @JvmOverloads constructor(
                                     .subscribe { answersMap ->
                                         val map = HashMap(answersMap)
                                         map.put(pair.second.answerId.toString(), status.kin)
-                                        answersAdapter.updateAnswers(answers, map)
+                                        postAdapter.updateAnswers(answers, map)
                                     }
                         }
                     }
                 }
-    }
 
-    private fun populateQuestion() {
-        questiontitle.text = question.title
-        questionBody.text = question.body
-        questionVotes.text = (question.upVoteCount - question.downVoteCount).toString()
-        questionTags.text = question.tags.reduce(operation = { tags, tag ->
-            return@reduce "$tags, $tag"
-        })
-        questionDate.setReferenceTime(question.creationDate * DateUtils.SECOND_IN_MILLIS)
-        questionProfileName.text = question.owner.displayName
-        if (!question.owner.link.isEmpty()) {
-            Picasso.with(context)
-                    .load(question.owner.profileImage)
-                    .into(questionProfileImage)
-        }
-    }
-
-    @OnClick(R.id.sponsor)
-    fun onSponsorClick() {
-        KinOverflowDb.getUsersAddressMap()
-                .first(HashMap())
+        disposables += postAdapter.questionGiveKinClickEvents()
+                .flatMapSingle {
+                    KinOverflowDb.getUsersAddressMap()
+                            .first(HashMap())
+                }
                 .flatMap { map ->
-                    var address = map[question.owner.userId.toString()]
-                    if (address == null)
+                    var address: String = map[question.owner.userId.toString()].orEmpty()
+                    if (address.isEmpty())
                         address = "ff2092ebf61aefb0e6f5d4ec208b84b9d9fd2ec9"
                     transactionDialog.showTransactionDialog(address, question.owner.displayName)
+                            .toObservable()
                 }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { status ->
@@ -173,15 +135,11 @@ class PostScreen @JvmOverloads constructor(
                         is TransactionDialog.TransactionSucceed -> {
                             Toast.makeText(context, "Payment done successfully", Toast.LENGTH_SHORT).show()
                             KinOverflowDb.setKinToQuestion(question.questionId.toString(), status.kin)
-                            questionKin.text = status.kin.toString()
-                            questionKin.visibility = View.VISIBLE
-                            kinIcon.visibility = View.VISIBLE
-                            kinRect.visibility = View.VISIBLE
+                            postAdapter.updateQuestion(question, status.kin)
                         }
                     }
                 }
     }
-
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
