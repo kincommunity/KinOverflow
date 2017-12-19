@@ -15,7 +15,7 @@ internal interface StackOverflowApiService {
     fun getQuestions(@Query("order") order: String = "desc", @Query("pagesize") pagesize: Int = 20,
                      @Query("sort") sort: String = "activity", @Query("tagged") tags: String,
                      @Query("site") site: String = "stackoverflow", @Query("filter") filter:
-                     String = "withbody"): Single<StackOverflowQuery<Question>>
+                     String = "unsafe"): Single<StackOverflowQuery<Question>>
 
     @GET("questions/{id}/answers")
     fun getAnswers(@Path("id") questionId: Int, @Query("order") order: String = "desc",
