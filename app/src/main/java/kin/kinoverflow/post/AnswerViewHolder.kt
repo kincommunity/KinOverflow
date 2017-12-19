@@ -13,6 +13,7 @@ import com.squareup.picasso.Picasso
 import kin.kinoverflow.R
 import kin.kinoverflow.model.Answer
 import kin.kinoverflow.questions.ViewHolderClickListener
+import kin.kinoverflow.utils.removeXmlFormatting
 
 class AnswerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
@@ -36,7 +37,7 @@ class AnswerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     fun setAnswer(answer: Answer, kin: Long?) {
         date.setReferenceTime(answer.creationDate * DateUtils.SECOND_IN_MILLIS)
-        answerBody.text = answer.body
+        answerBody.text = removeXmlFormatting(answer.body)
         votesCounter.text = (answer.upVoteCount - answer.downVoteCount).toString()
         profileName.text = answer.owner.displayName
         if (!answer.owner.link.isEmpty()) {

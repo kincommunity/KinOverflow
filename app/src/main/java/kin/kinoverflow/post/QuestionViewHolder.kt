@@ -13,6 +13,7 @@ import com.squareup.picasso.Picasso
 import kin.kinoverflow.R
 import kin.kinoverflow.model.Question
 import kin.kinoverflow.questions.ViewHolderClickListener
+import kin.kinoverflow.utils.removeXmlFormatting
 
 
 class QuestionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -38,7 +39,7 @@ class QuestionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     fun setQuestion(question: Question, kin: Long?) {
         title.text = question.title
-        questionBody.text = question.body
+        questionBody.text = removeXmlFormatting(question.body)
         votesCounter.text = (question.upVoteCount - question.downVoteCount).toString()
         tags.text = question.tags.reduce(operation = { tags, tag ->
             return@reduce "$tags, $tag"

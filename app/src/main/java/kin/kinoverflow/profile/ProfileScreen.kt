@@ -12,6 +12,7 @@ import com.squareup.picasso.Picasso
 import kin.kinoverflow.R
 import kin.kinoverflow.model.User
 import kin.kinoverflow.user.UserManager
+import kin.kinoverflow.utils.removeXmlFormatting
 import kin.sdk.core.Balance
 import kin.sdk.core.KinClient
 import kin.sdk.core.Request
@@ -44,8 +45,8 @@ class ProfileScreen @JvmOverloads constructor(
         super.onAttachedToWindow()
 
         userManger.getUser()
-                .subscribe {
-                    user -> updateUserDetails(user)
+                .subscribe { user ->
+                    updateUserDetails(user)
                 }
         kinBalance.text = initialBalance
         refreshBalanceText()
@@ -54,7 +55,7 @@ class ProfileScreen @JvmOverloads constructor(
         }
     }
 
-    private fun updateUserDetails(user: User){
+    private fun updateUserDetails(user: User) {
         bronzeBadgeCount.text = user.badgeCounts.bronze.toString()
         silverBadgeCount.text = user.badgeCounts.silver.toString()
         goldBadgeCount.text = user.badgeCounts.gold.toString()
@@ -64,13 +65,6 @@ class ProfileScreen @JvmOverloads constructor(
                 .into(userProfileImage)
         userId.text = user.displayName
         reputation.text = user.reputation.toString()
-    }
-
-    private fun removeXmlFormatting(originalString: String) : String {
-        var splitStringList = originalString.split(Regex("<.*?>"), 1000)
-
-       return splitStringList.reduce(operation = { tags, tag ->
-            return@reduce "$tags$tag"})
     }
 
     override fun onDetachedFromWindow() {
