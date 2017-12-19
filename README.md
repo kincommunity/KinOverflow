@@ -4,7 +4,7 @@ A demo app demonstrating how stackoverflow could possibly integrate tipping with
 ## Disclaimer
 This demo app was written during a 3 day hackathon. Therefore we have limited the app to the simplest 
 UI & functionality we could provide within this timeline and made a lot of allowances in terms of 
-functionality/ui presentation and code quality.
+functionality, ui presentation and code quality.
 
 
 ## About
@@ -21,7 +21,9 @@ already acquired in stackoverflow. However for the hackathon we award every user
 with 10000 KIN, using the testnet fountain provided by Kik. 
 <li>The app works with real questions and answers from stackoverflow using the stackexchange api.
 <li>We haven't implemented a login/authentication screen. By default the demo will display as if 'yosriz' 
-has logged in and the 4th question in the list will display as if it was written by Berry Ventura Lev even though
-she hasn't written that question!! 
-This can be configured by opening the SettingsActivity (from SettingsActivity launch icon).
+has logged in. 
+<li>In addition we added a couple of hacks for our demo: 
+The 2nd question will be displayed as if asked by Yossi, the 4th question will be displayed as if asked by Berry
+and the 3d answer is displayed as if answered by Berry. We haven't really asked/answered these questions!
+The 'demo' users can be configured by opening the SettingsActivity (from SettingsActivity launch icon).
 </ul>
